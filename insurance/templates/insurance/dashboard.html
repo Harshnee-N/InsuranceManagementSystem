@@ -1,0 +1,81 @@
+{% extends 'insurance/base.html' %}
+
+{% block content %}
+
+<h2 class="section-title">My Dashboard</h2>
+
+<div class="dashboard-stats">
+    <div class="stat-box">
+        <h3>{{ policies.count }}</h3>
+        <p>Purchased Policies</p>
+    </div>
+
+    <div class="stat-box">
+        <h3>{{ claims.count }}</h3>
+        <p>Total Claims</p>
+    </div>
+</div>
+
+<h2 class="section-title">Claim Updates</h2>
+
+<div class="claim-updates">
+    {% for claim in claims %}
+        <div class="claim-update">
+            <div>
+                <h3>{{ claim.customer_policy.policy.name }}</h3>
+                <p>Your claim for Rs. {{ claim.claim_amount }} is currently
+                    <span class="status status-{{ claim.status|lower }}">{{ claim.status }}</span>
+                </p>
+            </div>
+            <p class="muted">Submitted on {{ claim.claim_date }}</p>
+        </div>
+    {% empty %}
+        <p class="empty">No claim updates yet. Submitted claims will appear here with Pending, Approved, or Rejected status.</p>
+    {% endfor %}
+</div>
+
+<h2 class="section-title">My Policies</h2>
+
+<div class="card-grid">
+    {% for item in policies %}
+        <div class="card">
+            <span class="badge">{{ item.policy.policy_type }}</span>
+            <h3>{{ item.policy.name }}</h3>
+
+            <p><strong>Premium:</strong> Rs. {{ item.policy.premium_amount }}</p>
+            <p><strong>Coverage:</strong> Rs. {{ item.policy.coverage_amount }}</p>
+            <p><strong>Start Date:</strong> {{ item.start_date }}</p>
+
+            {% if item.is_active %}
+                <p><strong>Status:</strong> Active</p>
+            {% else %}
+                <p><strong>Status:</strong> Inactive</p>
+            {% endif %}
+
+            <a class="btn" href="{% url 'make_claim' item.id %}">Make Claim</a>
+        </div>
+    {% empty %}
+        <p class="empty">You have not purchased any policy yet.</p>
+    {% endfor %}
+</div>
+
+<br><br>
+
+<h2 class="section-title">My Claims</h2>
+
+<div class="card-grid">
+    {% for claim in claims %}
+        <div class="card">
+            <h3>{{ claim.customer_policy.policy.name }}</h3>
+
+            <p><strong>Amount:</strong> Rs. {{ claim.claim_amount }}</p>
+            <p><strong>Reason:</strong> {{ claim.reason }}</p>
+            <p><strong>Claim Status:</strong> <span class="status status-{{ claim.status|lower }}">{{ claim.status }}</span></p>
+            <p><strong>Date:</strong> {{ claim.claim_date }}</p>
+        </div>
+    {% empty %}
+        <p class="empty">No claims submitted yet.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

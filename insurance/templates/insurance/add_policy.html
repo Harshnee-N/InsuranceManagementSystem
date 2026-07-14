@@ -1,0 +1,17 @@
+{% extends 'insurance/base.html' %}
+
+{% block content %}
+
+<div class="form-box">
+    <h2>{{ form_title|default:"Add Insurance Policy" }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button class="btn" type="submit">{{ button_label|default:"Save Policy" }}</button>
+        <a class="btn btn-secondary" href="{% url 'manage_policies' %}">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}

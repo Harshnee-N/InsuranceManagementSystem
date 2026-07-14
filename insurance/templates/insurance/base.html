@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insurance Management System</title>
+    <link rel="stylesheet" href="{% static 'insurance/style.css' %}">
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="logo">InsureCare</div>
+
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <a href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
+                    <a href="{% url 'add_policy' %}">Add Policy</a>
+                    <a href="{% url 'manage_policies' %}">Manage Policies</a>
+                    <a href="{% url 'manage_claims' %}">Manage Claims</a>
+                {% else %}
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                {% endif %}
+
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+{% extends 'insurance/base.html' %}
+
+{% block content %}
+
+<h2 class="section-title">Admin Dashboard</h2>
+
+<div class="dashboard-stats">
+    <div class="stat-box">
+        <h3>{{ total_policies }}</h3>
+        <p>Total Policies</p>
+    </div>
+
+    <div class="stat-box">
+        <h3>{{ total_customers }}</h3>
+        <p>Total Customers</p>
+    </div>
+
+    <div class="stat-box">
+        <h3>{{ total_claims }}</h3>
+        <p>Total Claims</p>
+    </div>
+
+    <div class="stat-box">
+        <h3>{{ pending_claims }}</h3>
+        <p>Pending Claims</p>
+    </div>
+
+    <div class="stat-box">
+        <h3>{{ active_customer_policies }}</h3>
+        <p>Active Customer Policies</p>
+    </div>
+</div>
+
+<div class="admin-actions">
+    <a class="btn" href="{% url 'add_policy' %}">Add New Policy</a>
+    <a class="btn btn-secondary" href="{% url 'manage_policies' %}">Manage Policies</a>
+    <a class="btn btn-secondary" href="{% url 'manage_claims' %}">Manage Claims</a>
+</div>
+
+<h2 class="section-title">Recent Claims</h2>
+
+<div class="table-wrap">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Customer</th>
+                <th>Policy</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for claim in recent_claims %}
+                <tr>
+                    <td>{{ claim.customer_policy.customer.user.username }}</td>
+                    <td>{{ claim.customer_policy.policy.name }}</td>
+                    <td>Rs. {{ claim.claim_amount }}</td>
+                    <td><span class="status status-{{ claim.status|lower }}">{{ claim.status }}</span></td>
+                    <td>{{ claim.claim_date }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="empty-table">No claims submitted yet.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

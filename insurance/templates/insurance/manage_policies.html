@@ -1,0 +1,31 @@
+{% extends 'insurance/base.html' %}
+
+{% block content %}
+
+<h2 class="section-title">Manage Policies</h2>
+
+<div class="admin-actions">
+    <a class="btn" href="{% url 'add_policy' %}">Add New Policy</a>
+</div>
+
+<div class="card-grid">
+    {% for policy in policies %}
+        <div class="card">
+            <span class="badge">{{ policy.policy_type }}</span>
+            <h3>{{ policy.name }}</h3>
+            <p><strong>Premium:</strong> Rs. {{ policy.premium_amount }}</p>
+            <p><strong>Coverage:</strong> Rs. {{ policy.coverage_amount }}</p>
+            <p><strong>Duration:</strong> {{ policy.duration_years }} years</p>
+            <p>{{ policy.description }}</p>
+
+            <div class="card-actions">
+                <a class="btn" href="{% url 'edit_policy' policy.id %}">Edit</a>
+                <a class="btn btn-danger" href="{% url 'delete_policy' policy.id %}">Delete</a>
+            </div>
+        </div>
+    {% empty %}
+        <p class="empty">No policies added yet.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

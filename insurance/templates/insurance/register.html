@@ -1,0 +1,18 @@
+{% extends 'insurance/base.html' %}
+
+{% block content %}
+
+<div class="form-box">
+    <h2>Create Customer Account</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ user_form.as_p }}
+        {{ customer_form.as_p }}
+
+        <button class="btn" type="submit">Register</button>
+    </form>
+</div>
+
+{% endblock %}

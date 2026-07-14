@@ -1,0 +1,16 @@
+{% extends 'insurance/base.html' %}
+
+{% block content %}
+
+<div class="form-box">
+    <h2>Make Insurance Claim</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button class="btn" type="submit">Submit Claim</button>
+    </form>
+</div>
+
+{% endblock %}
